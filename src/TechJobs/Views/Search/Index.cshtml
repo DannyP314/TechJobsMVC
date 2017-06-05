@@ -45,7 +45,13 @@ else
         <label for="searchTerm">Keyword:</label>
         <input type="text" name="searchTerm" id="searchTerm" />
     </p>
+    @if (ViewBag.error != null)
+    { <p style="color:red">Please enter a search term!</p> }
+    else
+    {
 
+
+    }
     <input type="submit" value="Search" />
 </form>
 

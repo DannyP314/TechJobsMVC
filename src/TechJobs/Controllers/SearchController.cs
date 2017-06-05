@@ -23,23 +23,32 @@ namespace TechJobs.Controllers
             //initialize list of Dictionaries for job data
             List<Dictionary<string, string>> jobs;
 
-            //checks if the search was in all columns
-            if (searchType == "all")
+            if (searchTerm != null)
             {
-                jobs = JobData.FindByValue(searchTerm);
+                //checks if the search was in all columns
+                if (searchType == "all")
+                {
+                    jobs = JobData.FindByValue(searchTerm);
+                }
+                //checks if search has column and value
+                else
+                {
+                    jobs = JobData.FindByColumnAndValue(searchType, searchTerm);
+                }
+
+                //pass into view
+                ViewBag.title = "Jobs with " + searchType + ": " + searchTerm;
+                ViewBag.jobs = jobs;
+
+                //return a different view than would normally
+                return View("Index");
             }
-            //checks if search has column and value
             else
             {
-                jobs = JobData.FindByColumnAndValue(searchType, searchTerm);
+                ViewBag.columns = ListController.columnChoices;
+                ViewBag.error = "Please enter a search term!";
+                return View("Index");
             }
-
-            //pass into view
-            ViewBag.title = "Jobs with " + searchType + ": " + searchTerm;
-            ViewBag.jobs = jobs;
-
-            //return a different view than would normally
-            return View("Index");
         }
     }
 }
